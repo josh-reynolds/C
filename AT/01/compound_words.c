@@ -4,6 +4,12 @@
 
 #define hashsize(n) ((unsigned long)1 << (n))
 #define hashmask(n) (hashsize(n) - 1)
+#define NUM_BITS 17
+
+typedef struct word_node {
+	char **word;
+	struct word_node *next;
+} word_node;
 
 unsigned long oaat(char *key, unsigned long len, unsigned long bits){
 	unsigned long hash, i;
@@ -41,6 +47,22 @@ char *read_line(int size){
 	}
 	str[len] = '\0';
 	return str;
+}
+
+int in_hash_table(word_node *hash_table[], char *find,
+		unsigned find_len){
+	unsigned word_code;
+	word_node *wordptr;
+	word_code = oaat(find, find_len, NUM_BITS);
+	wordptr = hash_table[word_code];
+	while (wordptr){
+		if ((strlen(*(wordptr->word)) == find_len) &&
+				(strncmp(*(wordptr->word), find, find_len) == 0)){
+			return 1;
+		}
+		wordptr = wordptr->next;
+	}
+	return 0;
 }
 
 int main(void){ // sample call of oaat

@@ -65,12 +65,29 @@ int in_hash_table(word_node *hash_table[], char *find,
 	return 0;
 }
 
+void identify_compound_words(char *words[], 
+		word_node *hash_table[],
+		int total_words){
+	int i, j;
+	unsigned len;
+	for (i = 0; i < total_words; i++){
+		len = strlen(words[i]);
+		for (j = 1; j < len; j++){
+			if (in_hash_table(hash_table, words[i], j) &&
+					in_hash_table(hash_table, &words[i][j], len - j)){
+				printf("%s\n", words[i]);
+				break;
+			}
+		}
+	}
+}
+
 int main(void){ // sample call of oaat
 	
 	long snowflake[] = {1, 2, 3, 4, 5, 6};
 	// 2^17 is smallest power of 2 that is at least 100000
 	unsigned long code = oaat((char *)snowflake,
 			sizeof(snowflake), 17);
-	printf("%u\n", code);
+	printf("%lu\n", code);
 	return 0;
 }

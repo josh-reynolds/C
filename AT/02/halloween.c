@@ -19,13 +19,23 @@ node *new_house(int candy){
 	return house;
 }
 
+node *new_nonhouse(node *left, node *right){
+	node *nonhouse = malloc(sizeof(node));
+	if (nonhouse == NULL){
+		fprintf(stderr, "malloc error\n");
+		exit(1);
+	}
+	nonhouse->left = left;
+	nonhouse->right = right;
+	return nonhouse;
+}
+
 int main(void){
 	node *four = new_house(4);
 	node *nine = new_house(9);
-
-	node *B = malloc(sizeof(node));
-	B->left = four;
-	B->right = nine;
+	node *B = new_nonhouse(four, nine);
+	node *fifteen = new_house(15);
+	node *C = new_nonhouse(B, fifteen);
 
 	return 0;
 }

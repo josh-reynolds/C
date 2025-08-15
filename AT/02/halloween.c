@@ -63,7 +63,7 @@ int is_empty_stack(stack *s){
 	return s->highest_used == -1;
 }
 
-int tree_candy(node *tree){
+int tree_candy_stack(node *tree){
 	int total = 0;
 	stack *s = new_stack();
 	while (tree != NULL){
@@ -80,6 +80,15 @@ int tree_candy(node *tree){
 		}
 	}
 	return total;
+}
+
+int tree_candy(node *tree){
+	if (!tree->left && !tree->right){
+		return tree->candy;
+	} else {
+		return tree_candy(tree->left) +
+			tree_candy(tree->right);
+	}
 }
 
 int main(void){

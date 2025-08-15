@@ -68,11 +68,22 @@ int is_empty_stack(stack *s){
 }
 
 int main(void){
-	node *four = new_house(4);
-	node *nine = new_house(9);
-	node *B = new_nonhouse(four, nine);
-	node *fifteen = new_house(15);
-	node *C = new_nonhouse(B, fifteen);
+	stack *s;
+	s = new_stack();
+
+	node *n, *n1, *n2, *n3;
+	n1 = new_house(20);
+	n2 = new_house(30);
+	n3 = new_house(10);
+
+	push_stack(s, n1);
+	push_stack(s, n2);
+	push_stack(s, n3);
+
+	while (!is_empty_stack(s)){
+		n = pop_stack(s);
+		printf("%d\n", n->candy);
+	}
 
 	return 0;
 }

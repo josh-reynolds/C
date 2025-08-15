@@ -33,10 +33,6 @@ node *new_nonhouse(node *left, node *right){
 	return nonhouse;
 }
 
-int tree_candy(node *tree){
-
-}
-
 typedef struct stack {
 	node * values[SIZE];
 	int highest_used;
@@ -67,26 +63,30 @@ int is_empty_stack(stack *s){
 	return s->highest_used == -1;
 }
 
-int main(void){
-	stack *s;
-	s = new_stack();
-
-	node *n, *n1, *n2, *n3;
-	n1 = new_house(20);
-	n2 = new_house(30);
-	n3 = new_house(10);
-
-	push_stack(s, n1);
-	push_stack(s, n2);
-	push_stack(s, n3);
-
-	while (!is_empty_stack(s)){
-		n = pop_stack(s);
-		printf("%d\n", n->candy);
+int tree_candy(node *tree){
+	int total = 0;
+	stack *s = new_stack();
+	while (tree != NULL){
+		if (tree->left && tree->right){
+			push_stack(s, tree->left);
+			tree = tree->right;
+		} else {
+			total = total + tree->candy;
+			if (is_empty_stack(s)){
+				tree = NULL;
+			} else {
+				tree = pop_stack(s);
+			}
+		}
 	}
-
-	return 0;
+	return total;
 }
 
-
-
+int main(void){
+	node *n;
+	n = new_nonhouse(new_house(20), 
+			new_nonhouse(new_house(30),
+				     new_house(10)));
+	printf("%d\n", tree_candy(n));
+	return 0;
+}

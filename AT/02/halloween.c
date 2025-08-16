@@ -118,14 +118,32 @@ int tree_streets(node *tree){
 	}
 }
 
+int max(int v1, int v2){
+	if (v1 > v2){
+		return v1;
+	} else {
+		return v2;
+	}
+}
+
+int tree_height(node *tree){
+	if (!tree->left && !tree->right){
+		return 0;
+	} else {
+		return max(tree_height(tree->left),
+		           tree_height(tree->right)) + 1;
+	}
+}
+
 int main(void){
 	node *n;
 	n = new_nonhouse(new_house(20), 
 			new_nonhouse(new_house(30),
 				     new_house(10)));
-	printf("%d\n", tree_candy(n));
-	printf("%d\n", tree_nodes(n));
-	printf("%d\n", tree_leaves(n));
-	printf("%d\n", tree_streets(n));
+	printf("Candy = %d\n", tree_candy(n));
+	printf("Nodes = %d\n", tree_nodes(n));
+	printf("Leaves = %d\n", tree_leaves(n));
+	printf("Streets = %d\n", tree_streets(n));
+	printf("Height = %d\n", tree_height(n));
 	return 0;
 }

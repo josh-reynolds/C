@@ -91,11 +91,31 @@ int tree_candy(node *tree){
 	}
 }
 
+int tree_nodes(node *tree){
+	if (!tree->left && !tree->right){
+		return 1;
+	} else {
+		return 1 + tree_nodes(tree->left) +
+			   tree_nodes(tree->right);
+	}
+}
+
+int tree_leaves(node *tree){
+	if (!tree->left && !tree->right){
+		return 1;
+	} else {
+		return tree_leaves(tree->left) +
+		       tree_leaves(tree->right);
+	}
+}
+
 int main(void){
 	node *n;
 	n = new_nonhouse(new_house(20), 
 			new_nonhouse(new_house(30),
 				     new_house(10)));
 	printf("%d\n", tree_candy(n));
+	printf("%d\n", tree_nodes(n));
+	printf("%d\n", tree_leaves(n));
 	return 0;
 }

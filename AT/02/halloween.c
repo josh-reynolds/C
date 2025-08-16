@@ -135,6 +135,13 @@ int tree_height(node *tree){
 	}
 }
 
+int tree_solve(node *tree){
+	int candy = tree_candy(tree);
+	int height = tree_height(tree);
+	int num_streets = tree_streets(tree) - height;
+	printf("%d %d\n", num_streets, candy);
+}
+
 int main(void){
 	node *n;
 	n = new_nonhouse(new_house(20), 
@@ -145,5 +152,6 @@ int main(void){
 	printf("Leaves = %d\n", tree_leaves(n));
 	printf("Streets = %d\n", tree_streets(n));
 	printf("Height = %d\n", tree_height(n));
+	tree_solve(n);
 	return 0;
 }

@@ -109,6 +109,15 @@ int tree_leaves(node *tree){
 	}
 }
 
+int tree_streets(node *tree){
+	if (!tree->left && !tree->right){
+		return 0;
+	} else {
+		return tree_streets(tree->left) +
+		       tree_streets(tree->right) + 4;
+	}
+}
+
 int main(void){
 	node *n;
 	n = new_nonhouse(new_house(20), 
@@ -117,5 +126,6 @@ int main(void){
 	printf("%d\n", tree_candy(n));
 	printf("%d\n", tree_nodes(n));
 	printf("%d\n", tree_leaves(n));
+	printf("%d\n", tree_streets(n));
 	return 0;
 }

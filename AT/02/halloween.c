@@ -142,6 +142,39 @@ int tree_solve(node *tree){
 	printf("%d %d\n", num_streets, candy);
 }
 
+node *read_tree_helper(char *line, int *pos){
+	node *tree;
+	tree = malloc(sizeof(node));
+	if (tree == NULL){
+		fprintf(stderr, "malloc error\n");
+		exit(1);
+	}
+	if (line[*pos] == '('){
+		(*pos)++;
+		tree->left = read_tree_helper(line, pos);
+		(*pos)++;
+		tree->right = read_tree_helper(line, pos);
+		(*pos)++;
+		return tree;
+	} else {
+		tree->left = NULL;
+		tree->right = NULL;
+		tree->candy = line[*pos] - '0';
+		(*pos)++;
+		if (line[*pos] != ')' && line[*pos] != ' ' &&
+				line[*pos] != '\0'){
+			tree->candy = tree->candy * 10 + line[*pos] - '0';
+			(*pos)++;
+		}
+		return tree;
+	}
+}
+
+node *read_tree(char *line){
+	int pos = 0;
+	return read_tree_helper(line, &pos);
+}
+
 int main(void){
 	node *n;
 	n = new_nonhouse(new_house(20), 
@@ -153,5 +186,6 @@ int main(void){
 	printf("Streets = %d\n", tree_streets(n));
 	printf("Height = %d\n", tree_height(n));
 	tree_solve(n);
+
 	return 0;
 }

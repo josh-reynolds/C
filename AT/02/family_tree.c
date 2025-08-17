@@ -19,6 +19,22 @@ node *find_node(node *nodes[], int num_nodes, char *name){
 	return NULL;
 }
 
+void *malloc_safe(int size){
+	char *mem = malloc(size);
+	if (mem == NULL){
+		fprintf(stderr, "malloc error\n");
+		exit(1);
+	}
+	return mem;
+}
+
+node *new_node(char *name){
+	node *n = malloc_safe(sizeof(node));
+	n->name = name;
+	n->num_children = 0;
+	return n;
+}
+
 int main(void){
 	return 0;
 }

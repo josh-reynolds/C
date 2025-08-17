@@ -9,6 +9,16 @@ typedef struct node {
 	int score;
 } node;
 
+node *find_node(node *nodes[], int num_nodes, char *name){
+	int i;
+	for (i = 0; i < num_nodes; i++){
+		if (strcmp(nodes[i]->name, name) == 0){
+			return nodes[i];
+		}
+	}
+	return NULL;
+}
+
 int main(void){
 	return 0;
 }

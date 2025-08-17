@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define SIZE 255
+#define TEST_CASES 5
 
 typedef struct node {
 	int candy;
@@ -186,6 +187,15 @@ int main(void){
 	printf("Streets = %d\n", tree_streets(n));
 	printf("Height = %d\n", tree_height(n));
 	tree_solve(n);
+
+	int i;
+	char line[SIZE + 1];
+	node *tree;
+	for (i = 0; i < TEST_CASES; i++){
+		gets(line);     // gets() should not be used
+                tree = read_tree(line);
+		tree_solve(tree);
+	}
 
 	return 0;
 }

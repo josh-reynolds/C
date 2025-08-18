@@ -105,6 +105,18 @@ int compare(const void *v1, const void *v2){
 	return strcmp(n1->name, n2->name);
 }
 
+void output_info(node *nodes[], int num_nodes){
+	int i = 0;
+	while (i < 3 && i < num_nodes && nodes[i]->score > 0){
+		printf("%s %d\n", nodes[i]->name, nodes[i]->score);
+		i++;
+		while (i < num_nodes && nodes[i]->score == nodes[i-1]->score){
+			printf("%s %d\n", nodes[i]->name, nodes[i]->score);
+			i++;
+		}
+	}
+}
+
 int main(void){
 	return 0;
 }

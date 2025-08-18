@@ -74,6 +74,18 @@ int read_tree(node *nodes[], int num_lines){
 	return num_nodes;
 }
 
+int score_one(node *n, int d){
+	int total, i;
+	if (d == 1){
+		return n->num_children;
+	}
+	total = 0;
+	for (i = 0; i < n->num_children; i++){
+		total = total + score_one(n->children[i], d - 1);
+	}
+	return total;
+}
+
 int main(void){
 	return 0;
 }

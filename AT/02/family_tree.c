@@ -86,6 +86,13 @@ int score_one(node *n, int d){
 	return total;
 }
 
+void score_all(node **nodes, int num_nodes, int d){
+	int i;
+	for (i = 0; i < num_nodes; i++){
+		nodes[i]->score = score_one(nodes[i], d);
+	}
+}
+
 int main(void){
 	return 0;
 }

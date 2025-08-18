@@ -93,6 +93,18 @@ void score_all(node **nodes, int num_nodes, int d){
 	}
 }
 
+int compare(const void *v1, const void *v2){
+	const node *n1 = *(const node **)v1;
+	const node *n2 = *(const node **)v2;
+	if (n1->score > n2->score){
+		return -1;
+	}
+	if (n1->score < n2->score){
+		return 1;
+	}
+	return strcmp(n1->name, n2->name);
+}
+
 int main(void){
 	return 0;
 }

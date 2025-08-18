@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAX_NAME 10
+#define MAX_NODES 1000
 
 typedef struct node {
 	char *name;
@@ -118,6 +119,21 @@ void output_info(node *nodes[], int num_nodes){
 }
 
 int main(void){
+	int num_cases, case_num;
+	int n, d, num_nodes;
+	node **nodes = malloc_safe(sizeof(node) * MAX_NODES);
+	scanf("%d", &num_cases);
+	for (case_num = 1; case_num <= num_cases; case_num++){
+		printf("Tree %d:\n", case_num);
+		scanf("%d %d", &n, &d);
+		num_nodes = read_tree(nodes, n);
+		score_all(nodes, num_nodes, d);
+		qsort(nodes, num_nodes, sizeof(node*), compare);
+		output_info(nodes, num_nodes);
+		if (case_num < num_cases){
+			printf("\n");
+		}
+	}
 	return 0;
 }
 

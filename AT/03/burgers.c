@@ -35,6 +35,22 @@ int solve_t(int m, int n, int t){
 	}
 }
 
+void solve(int m, int n, int t){
+	int result, i;
+	result = solve_t(m, n, t);
+	if (result >= 0){
+		printf("%d\n", result);
+	} else {
+		i = t - 1;
+		result = solve_t(m, n, i);
+		while (result == -1){
+			i--;
+			result = solve_t(m, n, i);
+		}
+		printf("%d %d\n", result, t - i);
+	}
+}
+
 int main(void){
 	return 0;
 }

@@ -52,6 +52,10 @@ void solve(int m, int n, int t){
 }
 
 int main(void){
+	int m, n, t;
+	while (scanf("%d%d%d", &m, &n, &t) != -1){
+		solve(m, n, t);
+	}
 	return 0;
 }
 

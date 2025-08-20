@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define SIZE 200
+
 double min(double v1, double v2){
 	if (v1 < v2){
 		return v1;
@@ -29,6 +31,18 @@ double solve_k(int num[], double price[], int num_schemes,
 		}
 		return best;
 	}
+}
+
+double solve(int num[], double price[], int num_schemes,
+		double unit_price, int num_items){
+	double best;
+	int i;
+	best = solve_k(num, price, num_schemes, unit_price, num_items);
+	for (i = num_items + 1; i < SIZE; i++){
+		best = min(best, solve_k(num, price, num_schemes,
+					unit_price, i));
+	}
+	return best;
 }
 
 int main(void){

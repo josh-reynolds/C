@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+unsigned long long total_calls;
+
 int max(int v1, int v2){
 	if (v1 > v2){
 		return v1;
@@ -12,6 +14,7 @@ int max(int v1, int v2){
 
 int solve_t(int m, int n, int t){
 	int first, second;
+	total_calls++;
 	if (t == 0){
 		return 0;
 	}
@@ -37,6 +40,7 @@ int solve_t(int m, int n, int t){
 
 void solve(int m, int n, int t){
 	int result, i;
+	total_calls = 0;
 	result = solve_t(m, n, t);
 	if (result >= 0){
 		printf("%d\n", result);
@@ -49,6 +53,7 @@ void solve(int m, int n, int t){
 		}
 		printf("%d %d\n", result, t - i);
 	}
+	printf("Total calls to solve_t: %llu\n", total_calls);
 }
 
 int main(void){

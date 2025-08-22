@@ -15,38 +15,55 @@ double min(double v1, double v2){
 
 double solve_k(int num[], double price[], int num_schemes,
 		double unit_price, int num_items){
+	//printf("Entering solve_k()\n");
+	//printf("num_items = %d\n", num_items);
 	double best, result;
 	int i;
+	//exit(0);
 	if (num_items == 0){
+		//printf("Exiting solve_k()\n");
 		return 0;
 	} else {
+		//printf("Non-zero num_items\n");
 		result = solve_k(num, price, num_schemes, unit_price,
 				num_items - 1);
 		best = result + unit_price;
 		for (i = 0; i < num_schemes; i++){
 			if (num_items - num[i] >= 0){
+				//printf("Reentering solve_k()\n");
+				//printf("next num_items = %d\n", (num_items - num[i]));
+				//exit(0);
 				result = solve_k(num, price, num_schemes,
 						unit_price, num_items - num[i]);
+				//printf("Result = %f\n", result);
 				best = min(best, result + price[i]);
 			}
 		}
+		//printf("Exiting solve_k()\n");
 		return best;
 	}
 }
 
 double solve(int num[], double price[], int num_schemes,
 		double unit_price, int num_items){
+	//printf("Entering solve()\n");
 	double best;
 	int i;
+	//printf("Before loop ===================\n");
 	best = solve_k(num, price, num_schemes, unit_price, num_items);
-	for (i = num_items + 1; i < SIZE; i++){
+	//for (i = num_items + 1; i < SIZE; i++){
+	for (i = num_items + 1; i < 20; i++){
+		//printf("In loop\n");
 		best = min(best, solve_k(num, price, num_schemes,
 					unit_price, i));
+		//exit(0);
 	}
+	//printf("Exiting solve() ===================\n");
 	return best;
 }
 
 int get_number(int *num){
+	//printf("Entering get_number()\n");
 	int ch;
 	int ret = 0;
 	ch = getchar();
@@ -55,6 +72,7 @@ int get_number(int *num){
 		ch = getchar();
 	}
 	*num = ret;
+	//printf("Exiting get_number()\n");
 	return ch == ' ';
 }
 
@@ -73,11 +91,18 @@ int main(void){
 		printf("Case %d:\n", test_case);
 		more = get_number(&num_items);
 		while (more){
+			//for (i = 0; i < num_schemes; i++){
+				//printf("num %d = %d, price %d = %lf\n", i, num[i], i, price[i]);
+			//}
+			//printf("num_schemes = %d unit_price = %f\n", num_schemes, unit_price);
+			//printf("num_items = %d\n", num_items);
 			result = solve(num, price, num_schemes, unit_price,
 					num_items);
 			printf("Buy %d for $%.2f\n", num_items, result);
 			more = get_number(&num_items);
 		}
+		//printf("Last entry - - -\n");
+		//printf("num_items = %d\n", num_items);
 		result = solve(num, price, num_schemes, unit_price, num_items);
 		printf("Buy %d for $%.2f\n", num_items, result);
 	}

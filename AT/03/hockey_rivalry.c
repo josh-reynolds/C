@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define SIZE 1000
+
 int max(int v1, int v2){
 	if (v1 > v2){
 		return v1;
@@ -32,5 +34,23 @@ int solve (char outcome1[], char outcome2[],
 }
 
 int main(void){
+	int i, n, result;
+	char outcome1[SIZE + 1], outcome2[SIZE + 1];
+	int goals1[SIZE + 1], goals2[SIZE + 2];
+	scanf("%d ", &n);
+	for (i = 1; i <= n; i++){
+		scanf("%c", &outcome1[i]);
+	}
+	for (i = 1; i <= n; i++){
+		scanf("%d ", &goals1[i]);
+	}
+	for (i = 1; i <= n; i++){
+		scanf("%c", &outcome2[i]);
+	}
+	for (i = 1; i <= n; i++){
+		scanf("%d ", &goals2[i]);
+	}
+	result = solve(outcome1, outcome2, goals1, goals2, n, n);
+	printf("%d\n", result);
 	return 0;
 }

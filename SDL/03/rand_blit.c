@@ -8,7 +8,7 @@ const int SCREEN_HEIGHT=480;
 SDL_Surface* g_pDisplaySurface = NULL;
 SDL_Surface* g_pBitmapSurface = NULL;
 SDL_Event g_Event;
-SDL_Rect g_SrcRect, g_DstRect;
+SDL_Rect g_SrcRect, g_DstRect, g_ClipRect;
 
 int main(int argc, char* argv[]){
 	if (SDL_Init(SDL_INIT_VIDEO) == -1){
@@ -22,9 +22,16 @@ int main(int argc, char* argv[]){
 	g_pDisplaySurface = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, SDL_ANYFORMAT);
 	g_pBitmapSurface = SDL_LoadBMP("ball.bmp");
 	SDL_SetColorKey(g_pBitmapSurface, SDL_SRCCOLORKEY, 0);
+
 	g_SrcRect.w = g_DstRect.w = g_pBitmapSurface->w;
 	g_SrcRect.h = g_DstRect.h = g_pBitmapSurface->h;
 	g_SrcRect.x = g_SrcRect.y = 0;
+
+	g_ClipRect.x = 32;
+	g_ClipRect.y = 32;
+	g_ClipRect.w = SCREEN_WIDTH - 64;
+	g_ClipRect.h = SCREEN_HEIGHT - 64;
+	SDL_SetClipRect(g_pDisplaySurface, &g_ClipRect);
 
 	for (;;){
 		if (SDL_PollEvent(&g_Event) == 0){

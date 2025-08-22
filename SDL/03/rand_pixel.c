@@ -1,4 +1,4 @@
-// From 'Focus on SDL' pp. 55-6
+// From 'Focus on SDL' pp. 59-60
 #include <SDL/SDL.h>
 #include <stdlib.h>
 

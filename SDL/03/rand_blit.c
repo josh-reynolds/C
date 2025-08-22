@@ -21,6 +21,7 @@ int main(int argc, char* argv[]){
 
 	g_pDisplaySurface = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, SDL_ANYFORMAT);
 	g_pBitmapSurface = SDL_LoadBMP("ball.bmp");
+	SDL_SetColorKey(g_pBitmapSurface, SDL_SRCCOLORKEY, 0);
 	g_SrcRect.w = g_DstRect.w = g_pBitmapSurface->w;
 	g_SrcRect.h = g_DstRect.h = g_pBitmapSurface->h;
 	g_SrcRect.x = g_SrcRect.y = 0;

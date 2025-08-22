@@ -40,6 +40,7 @@ int main(int argc, char* argv[]){
 			if (SDL_MUSTLOCK(g_pDisplaySurface)) SDL_LockSurface(g_pDisplaySurface);
 			memcpy(pData, &g_Color, g_pDisplaySurface->format->BytesPerPixel);
 			if (SDL_MUSTLOCK(g_pDisplaySurface)) SDL_UnlockSurface(g_pDisplaySurface);
+			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {
 			if (g_Event.type == SDL_QUIT){
 				break;

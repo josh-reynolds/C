@@ -120,13 +120,20 @@ void solve(int pawn_row, int pawn_col, // bugged!
 		}
 		cur_pawn_row++;
 		num_moves++;
-
 	}
 
 	printf("Loss in %d knight move(s).\n", num_rows - pawn_row - 1);
-
 }
 
 int main(void){
+	int num_cases, i;
+	int num_rows, num_cols, pawn_row, pawn_col, knight_row, knight_col;
+	scanf("%d", &num_cases);
+	for (i = 0; i < num_cases; i++){
+		scanf("%d%d", &num_rows, &num_cols);
+		scanf("%d%d", &pawn_row, &pawn_col);
+		scanf("%d%d", &knight_row, &knight_col);
+		solve(pawn_row, pawn_col, knight_row, knight_col, num_rows, num_cols);
+	}
 	return 0;
 }

@@ -89,7 +89,7 @@ int find_distance(int knight_row, int knight_col,
 	return -1;
 }
 
-void solve(int pawn_row, int pawn_col, // bugged!
+void solve(int pawn_row, int pawn_col,
            int knight_row, int knight_col,
 	   int num_rows, int num_cols){
 	int cur_pawn_row, num_moves, knight_takes;
@@ -100,7 +100,8 @@ void solve(int pawn_row, int pawn_col, // bugged!
 		knight_takes = find_distance(knight_row, knight_col,
 				             cur_pawn_row, pawn_col,
 					     num_rows, num_cols);
-		if (knight_takes == num_moves){
+		if (knight_takes >= 0 && num_moves >= knight_takes &&
+		    (num_moves - knight_takes) % 2 == 0){
 			printf("Win in %d knight move(s).\n", num_moves);
 			return;
 		}
@@ -114,7 +115,8 @@ void solve(int pawn_row, int pawn_col, // bugged!
 		knight_takes = find_distance(knight_row, knight_col,
 				             cur_pawn_row + 1, pawn_col,
 					     num_rows, num_cols);
-		if (knight_takes == num_moves){
+		if (knight_takes >= 0 && num_moves >= knight_takes &&
+		    (num_moves - knight_takes) % 2 == 0){
 			printf("Stalemate in %d knight move(s).\n", num_moves);
 			return;
 		}

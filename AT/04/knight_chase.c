@@ -18,8 +18,16 @@ void add_position(int from_row, int from_col,
 		  int num_rows, int num_cols,
 		  positions new_positions, int *num_new_positions,
 		  board min_moves){
+	struct position new_position;
+	if (to_row >= 1 && to_col >= 1 &&
+            to_row <= num_rows && to_col <= num_cols &&
+	    min_moves[to_row][to_col] == -1){
+		min_moves[to_row][to_col] = 1 + min_moves[from_row][from_col];
+		new_position = (position){to_row, to_col};
+		new_positions[*num_new_positions] = new_position;
+		(*num_new_positions)++;
+	}
 }
-
 
 int find_distance(int knight_row, int knight_col,
 		 int dest_row, int dest_col,

@@ -50,13 +50,22 @@ Point project(Point3 p){
 	return result;
 }
 
+Point3 vs[4] = {
+	{ 0.5,  0.5, 1},
+	{-0.5,  0.5, 1},
+	{ 0.5, -0.5, 1},
+	{-0.5, -0.5, 1},
+};
+
 void frame() {
 	float dt = 1/FPS;
 	g_dz += 1 * dt;
 	clear();
 
-	Point3 location = {0.5, 0, 1 + g_dz};
-	point(screen(project(location)));
+	for (int i = 0; i < 4; i++){
+		Point3 transformed = {vs[i].x, vs[i].y, vs[i].z + g_dz};
+		point(screen(project(transformed)));
+	}
 }
 
 int main(void){

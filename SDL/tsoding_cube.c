@@ -8,25 +8,35 @@
 const int SCREEN_WIDTH=800;
 const int SCREEN_HEIGHT=800;
 
+SDL_Rect canvas = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 SDL_Surface* g_pDisplaySurface = NULL;
 SDL_Event g_Event;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 SDL_Rect g_Rect;
-SDL_Rect screen;
+
+typedef struct {
+	float x, y;
+} Point;
 
 void clear(){
-	SDL_FillRect(g_pDisplaySurface, &screen, BACKGROUND);
+	SDL_FillRect(g_pDisplaySurface, &canvas, BACKGROUND);
 }
 
-void point(int x, int y){
+void point(Point p){
 	SDL_Rect rect;
 	int s = 20;
-	rect.x = x;
-	rect.y = y;
+	rect.x = p.x - s/2;
+	rect.y = p.y - s/2;
 	rect.w = s;
 	rect.h = s;
 	SDL_FillRect(g_pDisplaySurface, &rect, FOREGROUND);
+}
+
+Point screen(Point p){
+	Point result = { (p.x + 1)/2 * SCREEN_WIDTH,
+	       	         (1 - (p.y + 1)/2) * SCREEN_HEIGHT };
+	return result;
 }
 
 int main(void){
@@ -40,17 +50,13 @@ int main(void){
 	FOREGROUND = SDL_MapRGB(g_pDisplaySurface->format, 80, 255, 80);
 	BACKGROUND = SDL_MapRGB(g_pDisplaySurface->format, 16, 16, 16);
 
-	screen.x = 0;
-	screen.y = 0;
-	screen.w = SCREEN_WIDTH;
-	screen.h = SCREEN_HEIGHT;
-
 	for (;;){
 		if (SDL_PollEvent(&g_Event) == 0){
 			clear();
-			point(100, 100);
 
-			// update surface
+			Point location = {0, 0};
+			point(screen(location));
+
 			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {
 			if (g_Event.type == SDL_QUIT){

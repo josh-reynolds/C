@@ -7,6 +7,7 @@
 
 const int SCREEN_WIDTH=800;
 const int SCREEN_HEIGHT=800;
+const float FPS = 60;
 
 SDL_Rect canvas = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 SDL_Surface* g_pDisplaySurface = NULL;
@@ -14,10 +15,15 @@ SDL_Event g_Event;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 SDL_Rect g_Rect;
+float g_dz = 0;
 
 typedef struct {
 	float x, y;
 } Point;
+
+typedef struct {
+	float x, y, z;
+} Point3;
 
 void clear(){
 	SDL_FillRect(g_pDisplaySurface, &canvas, BACKGROUND);
@@ -39,6 +45,20 @@ Point screen(Point p){
 	return result;
 }
 
+Point project(Point3 p){
+	Point result = { p.x / p.z, p.y / p.z };
+	return result;
+}
+
+void frame() {
+	float dt = 1/FPS;
+	g_dz += 1 * dt;
+	clear();
+
+	Point3 location = {0.5, 0, 1 + g_dz};
+	point(screen(project(location)));
+}
+
 int main(void){
 	if (SDL_Init(SDL_INIT_VIDEO) == -1){
 		fprintf(stderr, "Could not initialize SDL!\n");
@@ -52,10 +72,7 @@ int main(void){
 
 	for (;;){
 		if (SDL_PollEvent(&g_Event) == 0){
-			clear();
-
-			Point location = {0, 0};
-			point(screen(location));
+			frame();
 
 			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {

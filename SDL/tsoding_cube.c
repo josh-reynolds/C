@@ -5,7 +5,7 @@
 // Note: with the inclusion of math.h, need to 
 // add -lm to compile:
 // 
-// gcc ./tsoding_cube.c -o cube.out -lSDL -lm
+// gcc ./tsoding_cube.c -o cube.out -lSDL -lm && ./cube.out
 
 #include <SDL/SDL.h>
 #include <stdio.h>
@@ -21,8 +21,12 @@ SDL_Event g_Event;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 SDL_Rect g_Rect;
-float g_dz = 0.0;
+float g_dz = 1.0;
 double angle = 0.0;
+
+float target_frame_time = 1/FPS;
+int last_frame_time = 0;
+float dt;
 
 typedef struct {
 	float x, y;
@@ -44,6 +48,10 @@ void point(Point p){
 	rect.w = s;
 	rect.h = s;
 	SDL_FillRect(g_pDisplaySurface, &rect, FOREGROUND);
+}
+
+void line(Point p1, Point p2){
+
 }
 
 Point screen(Point p){
@@ -87,9 +95,12 @@ Point3 vs[8] = {
 };
 
 void frame() {
-	float dt = 1/FPS;
-	g_dz += 0.0005;
-	angle += 3 * M_PI * dt;
+	while (SDL_GetTicks() < last_frame_time + target_frame_time);
+
+	dt = (SDL_GetTicks() - last_frame_time) / 1000.0f;
+	last_frame_time = SDL_GetTicks();
+
+	angle += 8 * M_PI * dt;
 	clear();
 
 	for (int i = 0; i < 8; i++){
@@ -120,4 +131,3 @@ int main(void){
 		}
 	}
 }
-

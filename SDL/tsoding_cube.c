@@ -1,9 +1,15 @@
 // 2D projection of 3D points
 // from YouTube video by tsoding
 // "One Formula That Demystifies 3D Graphics"
+//
+// Note: with the inclusion of math.h, need to 
+// add -lm to compile:
+// 
+// gcc ./tsoding_cube.c -o cube.out -lSDL -lm
 
 #include <SDL/SDL.h>
 #include <stdio.h>
+#include <math.h>
 
 const int SCREEN_WIDTH=800;
 const int SCREEN_HEIGHT=800;
@@ -15,7 +21,8 @@ SDL_Event g_Event;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 SDL_Rect g_Rect;
-float g_dz = 1;
+float g_dz = 0.0;
+double angle = 0.0;
 
 typedef struct {
 	float x, y;
@@ -50,31 +57,43 @@ Point project(Point3 p){
 	return result;
 }
 
-
 Point3 translate_z(Point3 p, float dz){
 	Point3 result = {p.x, p.y, p.z + dz};
 	return result;
 }
 
-Point3 vs[8] = {
-	{ 0.5,  0.5,  0.5},
-	{-0.5,  0.5,  0.5},
-	{ 0.5, -0.5,  0.5},
-	{-0.5, -0.5,  0.5},
+Point3 rotate_xz(Point3 p, double angle){
+	double theta = angle * (M_PI / 180.0);
+	double c = cos(theta);
+	double s = sin(theta);
+	Point3 result = {
+		p.x * c - p.z * s,
+		p.y,
+		p.x * s + p.z * c
+	};
+	return result;
+}
 
-	{ 0.5,  0.5, -0.5},
-	{-0.5,  0.5, -0.5},
-	{ 0.5, -0.5, -0.5},
-	{-0.5, -0.5, -0.5},
+Point3 vs[8] = {
+	{ 0.25,  0.25,  0.25},
+	{-0.25,  0.25,  0.25},
+	{ 0.25, -0.25,  0.25},
+	{-0.25, -0.25,  0.25},
+
+	{ 0.25,  0.25, -0.25},
+	{-0.25,  0.25, -0.25},
+	{ 0.25, -0.25, -0.25},
+	{-0.25, -0.25, -0.25},
 };
 
 void frame() {
 	float dt = 1/FPS;
-	g_dz += 1 * dt;
+	g_dz += 0.0005;
+	angle += 3 * M_PI * dt;
 	clear();
 
 	for (int i = 0; i < 8; i++){
-		point(screen(project(translate_z(vs[i], g_dz))));
+		point(screen(project(translate_z(rotate_xz(vs[i], angle), g_dz))));
 	}
 }
 

@@ -50,6 +50,12 @@ Point project(Point3 p){
 	return result;
 }
 
+
+Point3 translate_z(Point3 p, float dz){
+	Point3 result = {p.x, p.y, p.z + dz};
+	return result;
+}
+
 Point3 vs[4] = {
 	{ 0.5,  0.5, 1},
 	{-0.5,  0.5, 1},
@@ -63,8 +69,7 @@ void frame() {
 	clear();
 
 	for (int i = 0; i < 4; i++){
-		Point3 transformed = {vs[i].x, vs[i].y, vs[i].z + g_dz};
-		point(screen(project(transformed)));
+		point(screen(project(translate_z(vs[i], g_dz))));
 	}
 }
 

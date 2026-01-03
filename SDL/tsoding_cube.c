@@ -15,7 +15,7 @@ SDL_Event g_Event;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 SDL_Rect g_Rect;
-float g_dz = 0;
+float g_dz = 1;
 
 typedef struct {
 	float x, y;
@@ -56,11 +56,16 @@ Point3 translate_z(Point3 p, float dz){
 	return result;
 }
 
-Point3 vs[4] = {
-	{ 0.5,  0.5, 1},
-	{-0.5,  0.5, 1},
-	{ 0.5, -0.5, 1},
-	{-0.5, -0.5, 1},
+Point3 vs[8] = {
+	{ 0.5,  0.5,  0.5},
+	{-0.5,  0.5,  0.5},
+	{ 0.5, -0.5,  0.5},
+	{-0.5, -0.5,  0.5},
+
+	{ 0.5,  0.5, -0.5},
+	{-0.5,  0.5, -0.5},
+	{ 0.5, -0.5, -0.5},
+	{-0.5, -0.5, -0.5},
 };
 
 void frame() {
@@ -68,7 +73,7 @@ void frame() {
 	g_dz += 1 * dt;
 	clear();
 
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < 8; i++){
 		point(screen(project(translate_z(vs[i], g_dz))));
 	}
 }

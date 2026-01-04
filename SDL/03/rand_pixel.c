@@ -18,6 +18,14 @@ void set_pixel(char* pixels, Uint32* color){
 	if (SDL_MUSTLOCK(g_pDisplaySurface)) SDL_UnlockSurface(g_pDisplaySurface);
 }
 
+char* get_pixel_data(Uint32 x, Uint32 y){
+	char* pData;
+	pData = (char*)g_pDisplaySurface->pixels;
+	pData += (y * g_pDisplaySurface->pitch);
+	pData += (x * g_pDisplaySurface->format->BytesPerPixel);
+	return pData;
+}
+
 int main(int argc, char* argv[]){
 	if (SDL_Init(SDL_INIT_VIDEO) == -1){
 		fprintf(stderr, "Could not initialize SDL!\n");
@@ -34,18 +42,13 @@ int main(int argc, char* argv[]){
 			g_Red = rand()%256;
 			g_Green = rand()%256;
 			g_Blue = rand()%256;
-			g_Color = SDL_MapRGB(g_pDisplaySurface->format, g_Red,
-					g_Green, g_Blue);
+			g_Color = SDL_MapRGB(g_pDisplaySurface->format, 
+					     g_Red, g_Green, g_Blue);
 
 			g_x = rand()%SCREEN_WIDTH;
 			g_y = rand()%SCREEN_HEIGHT;
 
-			char* pData;
-			pData = (char*)g_pDisplaySurface->pixels;
-			pData += (g_y * g_pDisplaySurface->pitch);
-			pData += (g_x * g_pDisplaySurface->format->BytesPerPixel);
-
-			set_pixel(pData, &g_Color);
+			set_pixel(get_pixel_data(g_x, g_y), &g_Color);
 
 			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {

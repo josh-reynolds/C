@@ -69,28 +69,30 @@ void point(Point p){
 
 // Bresenham's line drawing algorithm
 void line(Point p1, Point p2){
-	float dx = p2.x - p1.x;
-	float dy = p2.y - p1.y;
+	int dx = p2.x - p1.x;
+	int dy = p2.y - p1.y;
 
-	float ax = 2 * abs(dx);
-	float ay = 2 * abs(dy);
+	int ax = 2 * abs(dx);
+	int ay = 2 * abs(dy);
 
-	float sx = copysign(1, dx);
-	float sy = copysign(1, dy);
+	int sx = copysign(1, dx);
+	int sy = copysign(1, dy);
 
-	float x = p1.x;
-	float y = p1.y;
+	int x = p1.x;
+	int y = p1.y;
 
-	float d;
+	int d;
 
 	Point p;
+
 
 	if (ax > ay){                 // x dominant
 		d = ay - ax/2;
 		while(1 == 1){
-			if (x == p2.x){
+			if (x == round(p2.x)){
 				return;
 			}
+
 
 			p.x = x;
 			p.y = y;
@@ -106,7 +108,7 @@ void line(Point p1, Point p2){
 	} else {                     // y dominant
 		d = ax - ay/2;
 		while(1 == 1){
-			if (y == p2.y){
+			if (y == round(p2.y)){
 				return;
 			}
 
@@ -164,6 +166,11 @@ Point3 vs[8] = {
 	{-0.25, -0.25, -0.25},
 };
 
+int faces[2][4] = {
+	{0, 1, 2, 3},
+	{4, 5, 6, 7},
+};
+
 void frame() {
 	int time_to_wait = target_frame_time - (SDL_GetTicks() - last_frame_time);
 
@@ -179,6 +186,18 @@ void frame() {
 
 	for (int i = 0; i < 8; i++){
 		point(screen(project(translate_z(rotate_xz(vs[i], angle), g_dz))));
+	}
+
+	for (int i = 0; i < 2; i++){
+		for (int j = 0; j < 4; j++){
+			int index1 = faces[i][j];
+			int index2 = faces[i][(j+1)%4];
+
+			Point p1 = screen(project(translate_z(rotate_xz(vs[index1], angle), g_dz)));
+			Point p2 = screen(project(translate_z(rotate_xz(vs[index2], angle), g_dz)));
+
+			line(p1, p2);
+		}
 	}
 }
 
@@ -197,9 +216,9 @@ int main(void){
 		if (SDL_PollEvent(&g_Event) == 0){
 			frame();
 
-			Point p1 = { 10, 10 };
-			Point p2 = { 750, 780 };
-			line(p1, p2);
+			//Point p1 = { 10, 10 };
+			//Point p2 = { 750, 780 };
+			//line(p1, p2);
 
 			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {

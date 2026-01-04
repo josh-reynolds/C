@@ -7,9 +7,10 @@
 // 
 // gcc ./tsoding_cube.c -o cube.out -lSDL -lm && ./cube.out
 
-#include <SDL/SDL.h>
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <SDL/SDL.h>
 
 const int SCREEN_WIDTH=800;
 const int SCREEN_HEIGHT=800;
@@ -66,8 +67,61 @@ void point(Point p){
 	set_pixel(get_pixel_data(p.x, p.y), &FOREGROUND);
 }
 
+// Bresenham's line drawing algorithm
 void line(Point p1, Point p2){
+	float dx = p2.x - p1.x;
+	float dy = p2.y - p1.y;
 
+	float ax = 2 * abs(dx);
+	float ay = 2 * abs(dy);
+
+	float sx = copysign(1, dx);
+	float sy = copysign(1, dy);
+
+	float x = p1.x;
+	float y = p1.y;
+
+	float d;
+
+	Point p;
+
+	if (ax > ay){                 // x dominant
+		d = ay - ax/2;
+		while(1 == 1){
+			if (x == p2.x){
+				return;
+			}
+
+			p.x = x;
+			p.y = y;
+			point(p);
+
+			if (d >= 0){
+				y = y + sy;
+				d = d - ax;
+			}
+			x = x + sx;
+			d = d + ay;
+		}
+	} else {                     // y dominant
+		d = ax - ay/2;
+		while(1 == 1){
+			if (y == p2.y){
+				return;
+			}
+
+			p.x = x;
+			p.y = y;
+			point(p);
+
+			if (d >= 0){
+				x = x + sx;
+				d = d - ay;
+			}
+			y = y + sy;
+			d = d + ax;
+		}
+	}
 }
 
 Point screen(Point p){
@@ -142,6 +196,10 @@ int main(void){
 	for (;;){
 		if (SDL_PollEvent(&g_Event) == 0){
 			frame();
+
+			Point p1 = { 10, 10 };
+			Point p2 = { 750, 780 };
+			line(p1, p2);
 
 			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {

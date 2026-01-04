@@ -166,11 +166,15 @@ Point3 vs[8] = {
 	{ 0.25, -0.25, -0.25},
 };
 
-int edges[8][2] = {
+int edges[12][2] = {
 	{0, 1},
 	{1, 2},
 	{2, 3},
 	{3, 0},
+	{0, 4},
+	{1, 5},
+	{2, 6},
+	{3, 7},
 	{4, 5},
 	{5, 6},
 	{6, 7},
@@ -190,11 +194,7 @@ void frame() {
 	angle += 8 * M_PI * dt;
 	clear();
 
-	for (int i = 0; i < 8; i++){
-		point(screen(project(translate_z(rotate_xz(vs[i], angle), g_dz))));
-	}
-
-	for (int i = 0; i < 8; i++){
+	for (int i = 0; i < 12; i++){
 		int index1 = edges[i][0];
 		int index2 = edges[i][1];
 
@@ -219,11 +219,6 @@ int main(void){
 	for (;;){
 		if (SDL_PollEvent(&g_Event) == 0){
 			frame();
-
-			//Point p1 = { 10, 10 };
-			//Point p2 = { 750, 780 };
-			//line(p1, p2);
-
 			SDL_UpdateRect(g_pDisplaySurface, 0, 0, 0, 0);
 		} else {
 			if (g_Event.type == SDL_QUIT){

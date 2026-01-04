@@ -18,6 +18,7 @@ const float FPS = 60;
 SDL_Rect canvas = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 SDL_Surface* g_pDisplaySurface = NULL;
 SDL_Event g_Event;
+
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 
@@ -55,13 +56,14 @@ void clear(){
 }
 
 void point(Point p){
-	SDL_Rect rect;
-	int s = 20;
-	rect.x = p.x - s/2;
-	rect.y = p.y - s/2;
-	rect.w = s;
-	rect.h = s;
-	SDL_FillRect(g_pDisplaySurface, &rect, FOREGROUND);
+	//SDL_Rect rect;
+	//int s = 20;
+	//rect.x = p.x - s/2;
+	//rect.y = p.y - s/2;
+	//rect.w = s;
+	//rect.h = s;
+	//SDL_FillRect(g_pDisplaySurface, &rect, FOREGROUND);
+	set_pixel(get_pixel_data(p.x, p.y), &FOREGROUND);
 }
 
 void line(Point p1, Point p2){

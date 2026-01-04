@@ -166,9 +166,15 @@ Point3 vs[8] = {
 	{ 0.25, -0.25, -0.25},
 };
 
-int faces[2][4] = {
-	{0, 1, 2, 3},
-	{4, 5, 6, 7},
+int edges[8][2] = {
+	{0, 1},
+	{1, 2},
+	{2, 3},
+	{3, 0},
+	{4, 5},
+	{5, 6},
+	{6, 7},
+	{7, 4},
 };
 
 void frame() {
@@ -188,16 +194,14 @@ void frame() {
 		point(screen(project(translate_z(rotate_xz(vs[i], angle), g_dz))));
 	}
 
-	for (int i = 0; i < 2; i++){
-		for (int j = 0; j < 4; j++){
-			int index1 = faces[i][j];
-			int index2 = faces[i][(j+1)%4];
+	for (int i = 0; i < 8; i++){
+		int index1 = edges[i][0];
+		int index2 = edges[i][1];
 
-			Point p1 = screen(project(translate_z(rotate_xz(vs[index1], angle), g_dz)));
-			Point p2 = screen(project(translate_z(rotate_xz(vs[index2], angle), g_dz)));
+		Point p1 = screen(project(translate_z(rotate_xz(vs[index1], angle), g_dz)));
+		Point p2 = screen(project(translate_z(rotate_xz(vs[index2], angle), g_dz)));
 
-			line(p1, p2);
-		}
+		line(p1, p2);
 	}
 }
 

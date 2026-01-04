@@ -20,7 +20,7 @@ SDL_Surface* g_pDisplaySurface = NULL;
 SDL_Event g_Event;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
-SDL_Rect g_Rect;
+
 float g_dz = 1.0;
 double angle = 0.0;
 
@@ -35,6 +35,20 @@ typedef struct {
 typedef struct {
 	float x, y, z;
 } Point3;
+
+void set_pixel(char* pixels, Uint32* color){
+	if (SDL_MUSTLOCK(g_pDisplaySurface)) SDL_LockSurface(g_pDisplaySurface);
+	memcpy(pixels, color, g_pDisplaySurface->format->BytesPerPixel);
+	if (SDL_MUSTLOCK(g_pDisplaySurface)) SDL_UnlockSurface(g_pDisplaySurface);
+}
+
+char* get_pixel_data(Uint32 x, Uint32 y){
+	char* pData;
+	pData = (char*)g_pDisplaySurface->pixels;
+	pData += (y * g_pDisplaySurface->pitch);
+	pData += (x * g_pDisplaySurface->format->BytesPerPixel);
+	return pData;
+}
 
 void clear(){
 	SDL_FillRect(g_pDisplaySurface, &canvas, BACKGROUND);

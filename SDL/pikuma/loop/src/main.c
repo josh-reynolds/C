@@ -12,6 +12,9 @@ SDL_Renderer* renderer = NULL;
 
 int last_frame_time = 0;
 
+int x_direction = 1;
+int y_direction = 1;
+
 struct ball {
 	float x;
 	float y;
@@ -79,8 +82,15 @@ void update(){
 	float delta_time = (SDL_GetTicks() - last_frame_time) / 1000.0f;
 	last_frame_time = SDL_GetTicks();
 
-	ball.x += 70 * delta_time;
-	ball.y += 50 * delta_time;
+	ball.x += 70 * delta_time * x_direction;
+	ball.y += 50 * delta_time * y_direction;
+
+	if (ball.x + ball.width > WINDOW_WIDTH || ball.x < 0){
+		x_direction *= -1;
+	}
+	if (ball.y + ball.height > WINDOW_HEIGHT || ball.y < 0){
+		y_direction *= -1;
+	}
 }
 
 void render(){

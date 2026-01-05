@@ -6,16 +6,49 @@
 #include <SDL2/SDL.h>
 #include "./constants.h"
 
-void initialize_window(void){
+SDL_Window* window = NULL;
+SDL_Renderer* renderer = NULL;
+
+int initialize_window(void){
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
 		fprintf(stderr, "Error initializing SDL.\n");
-		exit(1);    // tutorial returns FALSE here instead of exiting
+		return FALSE;
 	}
-	// tutorial returns TRUE on success
+
+	window = SDL_CreateWindow(
+			NULL,
+			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED,
+			WINDOW_WIDTH,
+			WINDOW_HEIGHT,
+			SDL_WINDOW_BORDERLESS
+			);
+	if (!window){
+		fprintf(stderr, "Error creating SDL window.\n");
+		return FALSE;
+	}
+
+	renderer = SDL_CreateRenderer(window, -1, 0);
+	if (!renderer){
+		fprintf(stderr, "Error creating SDL renderer.\n");
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 int main(){
-	initialize_window();
+	int game_is_running = initialize_window();
+
+	//setup();
+
+	while(game_is_running){
+		//process_input();
+		//update();
+		//render();
+		game_is_running = FALSE;
+	}
+
 	return 0;
 }
 

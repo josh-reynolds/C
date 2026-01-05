@@ -68,14 +68,19 @@ void process_input(){
 }
 
 void update(){
-	// TO_DO
+	ball.x += 0.01;
+	ball.y += 0.01;
 }
 
 void render(){
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	SDL_Rect ball_rect = {ball.x, ball.y, ball.width, ball.height};
+	SDL_Rect ball_rect = {
+		(int)ball.x, 
+		(int)ball.y, 
+		(int)ball.width, 
+		(int)ball.height};
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(renderer, &ball_rect);
 	

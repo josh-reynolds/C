@@ -10,6 +10,8 @@ int game_is_running = FALSE;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
+int last_frame_time = 0;
+
 struct ball {
 	float x;
 	float y;
@@ -68,8 +70,11 @@ void process_input(){
 }
 
 void update(){
-	ball.x += 0.01;
-	ball.y += 0.01;
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), last_frame_time + FRAME_TARGET_TIME));
+	last_frame_time = SDL_GetTicks();
+
+	ball.x += 1;
+	ball.y += 1;
 }
 
 void render(){
@@ -80,7 +85,8 @@ void render(){
 		(int)ball.x, 
 		(int)ball.y, 
 		(int)ball.width, 
-		(int)ball.height};
+		(int)ball.height
+	};
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(renderer, &ball_rect);
 	

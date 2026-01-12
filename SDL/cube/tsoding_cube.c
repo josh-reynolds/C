@@ -82,9 +82,7 @@ void line(Point p1, Point p2){
 	int y = p1.y;
 
 	int d;
-
 	Point p;
-
 
 	if (ax > ay){                 // x dominant
 		d = ay - ax/2;

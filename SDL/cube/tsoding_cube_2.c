@@ -61,16 +61,23 @@ Point3 translate_z(Point3 p, float dz){
 	return result;
 }
 
-Point3 vs[2] = {
-	{ 0,  0,  0.5},
+Point3 vs[8] = {
 	{ 0.5,  0.5,  0.5},
+	{-0.5,  0.5,  0.5},
+	{ 0.5, -0.5,  0.5},
+	{-0.5, -0.5,  0.5},
+
+	{ 0.5,  0.5, -0.5},
+	{-0.5,  0.5, -0.5},
+	{ 0.5, -0.5, -0.5},
+	{-0.5, -0.5, -0.5},
 };
 
 void frame(){
 	g_dz += 0.01;
 	clear();
 
-	for (int i = 0; i < 2; i++){
+	for (int i = 0; i < 8; i++){
 		point(screen(project(translate_z(vs[i], g_dz))));
 	}
 }

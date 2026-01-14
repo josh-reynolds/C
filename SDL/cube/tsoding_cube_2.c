@@ -19,6 +19,8 @@ SDL_Surface* g_pSurface = NULL;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 
+float g_dz = 0.5;
+
 bool is_running = false;
 
 typedef struct {
@@ -54,16 +56,22 @@ Point screen(Point p){
 	return result;
 }
 
+Point3 translate_z(Point3 p, float dz){
+	Point3 result = {p.x, p.y, p.z + dz};
+	return result;
+}
+
 Point3 vs[2] = {
 	{ 0,  0,  0.5},
 	{ 0.5,  0.5,  0.5},
 };
 
 void frame(){
+	g_dz += 0.01;
 	clear();
 
 	for (int i = 0; i < 2; i++){
-		point(screen(project(vs[i])));
+		point(screen(project(translate_z(vs[i], g_dz))));
 	}
 }
 

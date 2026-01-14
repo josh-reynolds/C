@@ -22,14 +22,14 @@ Uint32 BACKGROUND;
 bool is_running = false;
 
 typedef struct {
-	int x, y;
+	float x, y;
 } Point;
 
 void point(Point p){
 	SDL_Rect rect;
 	int s = 20;
-	rect.x = p.x;
-	rect.y = p.y;
+	rect.x = p.x - s/2;
+	rect.y = p.y - s/2;
 	rect.w = s;
 	rect.h = s;
 	SDL_FillRect(g_pSurface, &rect, FOREGROUND);
@@ -37,6 +37,18 @@ void point(Point p){
 
 void clear(){
 	SDL_FillRect(g_pSurface, NULL, BACKGROUND);
+}
+
+Point screen(Point p){
+	Point result = { (p.x + 1)/2 * SCREEN_WIDTH,
+		         (1 - (p.y + 1)/2) * SCREEN_HEIGHT };
+	return result;
+}
+
+void frame(){
+	clear();
+	Point p1 = {0.5, 0.5};
+	point(screen(p1));
 }
 
 int main(void){
@@ -74,12 +86,7 @@ int main(void){
 				break;
 		}
 
-		clear();
-		Point p1 = {100, 100};
-		point(p1);
-		Point p2 = {200, 300};
-		point(p2);
-
+		frame();
 		SDL_UpdateWindowSurface(g_pWindow);
 	}
 

@@ -25,6 +25,10 @@ typedef struct {
 	float x, y;
 } Point;
 
+typedef struct {
+	float x, y, z;
+} Point3;
+
 void point(Point p){
 	SDL_Rect rect;
 	int s = 20;
@@ -39,16 +43,28 @@ void clear(){
 	SDL_FillRect(g_pSurface, NULL, BACKGROUND);
 }
 
+Point project(Point3 p){
+	Point result = { p.x / p.z, p.y / p.z };
+	return result;
+}
+
 Point screen(Point p){
 	Point result = { (p.x + 1)/2 * SCREEN_WIDTH,
 		         (1 - (p.y + 1)/2) * SCREEN_HEIGHT };
 	return result;
 }
 
+Point3 vs[2] = {
+	{ 0,  0,  0.5},
+	{ 0.5,  0.5,  0.5},
+};
+
 void frame(){
 	clear();
-	Point p1 = {0.5, 0.5};
-	point(screen(p1));
+
+	for (int i = 0; i < 2; i++){
+		point(screen(project(vs[i])));
+	}
 }
 
 int main(void){

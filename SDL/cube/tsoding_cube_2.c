@@ -4,8 +4,9 @@
 //
 // Redoing this project with SDL2
 //
-// gcc ./tsoding_cube_2.c -o cube2.out -lSDL2 && ./cube2.out
+// gcc ./tsoding_cube_2.c -o cube2.out -lSDL2 -lm && ./cube2.out
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
@@ -19,7 +20,8 @@ SDL_Surface* g_pSurface = NULL;
 Uint32 FOREGROUND;
 Uint32 BACKGROUND;
 
-float g_dz = 0.5;
+float g_dz = 1.0;
+double g_angle = 0.0;
 
 bool is_running = false;
 
@@ -61,24 +63,37 @@ Point3 translate_z(Point3 p, float dz){
 	return result;
 }
 
-Point3 vs[8] = {
-	{ 0.5,  0.5,  0.5},
-	{-0.5,  0.5,  0.5},
-	{ 0.5, -0.5,  0.5},
-	{-0.5, -0.5,  0.5},
+Point3 rotate_xz(Point3 p, double angle){
+	double theta = angle * (M_PI / 180.0);
+	double c = cos(theta);
+	double s = sin(theta);
+	Point3 result = {
+		p.x * c - p.z * s,
+		p.y,
+		p.x * s + p.z * c
+	};
+	return result;
+}
 
-	{ 0.5,  0.5, -0.5},
-	{-0.5,  0.5, -0.5},
-	{ 0.5, -0.5, -0.5},
-	{-0.5, -0.5, -0.5},
+Point3 vs[8] = {
+	{ 0.25,  0.25,  0.25},
+	{-0.25,  0.25,  0.25},
+	{ 0.25, -0.25,  0.25},
+	{-0.25, -0.25,  0.25},
+
+	{ 0.25,  0.25, -0.25},
+	{-0.25,  0.25, -0.25},
+	{ 0.25, -0.25, -0.25},
+	{-0.25, -0.25, -0.25},
 };
 
 void frame(){
-	g_dz += 0.01;
+	g_angle += M_PI/20;
+
 	clear();
 
 	for (int i = 0; i < 8; i++){
-		point(screen(project(translate_z(vs[i], g_dz))));
+		point(screen(project(translate_z(rotate_xz(vs[i], g_angle), g_dz))));
 	}
 }
 

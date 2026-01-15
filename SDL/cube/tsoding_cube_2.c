@@ -78,13 +78,28 @@ Point3 rotate_xz(Point3 p, double angle){
 Point3 vs[8] = {
 	{ 0.25,  0.25,  0.25},
 	{-0.25,  0.25,  0.25},
-	{ 0.25, -0.25,  0.25},
 	{-0.25, -0.25,  0.25},
+	{ 0.25, -0.25,  0.25},
 
 	{ 0.25,  0.25, -0.25},
 	{-0.25,  0.25, -0.25},
-	{ 0.25, -0.25, -0.25},
 	{-0.25, -0.25, -0.25},
+	{ 0.25, -0.25, -0.25},
+};
+
+int edges[12][2] = {
+	{0, 1},
+	{1, 2},
+	{2, 3},
+	{3, 0},
+	{0, 4},
+	{1, 5},
+	{2, 6},
+	{3, 7},
+	{4, 5},
+	{5, 6},
+	{6, 7},
+	{7, 4},
 };
 
 void frame(){
@@ -94,6 +109,17 @@ void frame(){
 
 	for (int i = 0; i < 8; i++){
 		point(screen(project(translate_z(rotate_xz(vs[i], g_angle), g_dz))));
+	}
+
+	for (int i = 0; i < 12; i++){
+		int index1 = edges[i][0];
+		int index2 = edges[i][1];
+
+		Point p1 = screen(project(translate_z(rotate_xz(vs[index1], g_angle), g_dz)));
+		Point p2 = screen(project(translate_z(rotate_xz(vs[index2], g_angle), g_dz)));
+
+		SDL_SetRenderDrawColor(g_pRenderer, 80, 255, 80, 255);
+		SDL_RenderDrawLine(g_pRenderer, p1.x, p1.y, p2.x, p2.y);
 	}
 }
 

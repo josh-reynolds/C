@@ -11,14 +11,26 @@ SDL_Renderer* renderer = NULL;
 
 int last_frame_time = 0;
 
-struct ball {
+typedef struct Ball {
 	float x;
 	float y;
 	float width;
 	float height;
 	int x_velocity;
 	int y_velocity;
-} ball;
+} Ball;
+
+Ball ball;
+
+typedef struct Paddle {
+	float x;
+	float y;
+	float width;
+	float height;
+} Paddle;
+
+Paddle paddle_1;
+Paddle paddle_2;
 
 int initialize_window(void){
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -55,6 +67,16 @@ void setup(){
 	ball.height = 15;
 	ball.x_velocity = 70;
 	ball.y_velocity = 50;
+
+	paddle_1.x = 10;
+	paddle_1.y = WINDOW_HEIGHT / 2;
+	paddle_1.width = 10;
+	paddle_1.height = 50;
+
+	paddle_2.x = WINDOW_WIDTH - 10;
+	paddle_2.y = WINDOW_HEIGHT / 2;
+	paddle_2.width = 10;
+	paddle_2.height = 50;
 }
 
 void process_input(){
@@ -105,7 +127,25 @@ void render(){
 	};
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(renderer, &ball_rect);
+
+	SDL_Rect paddle_1_rect = {
+		(int)paddle_1.x, 
+		(int)paddle_1.y, 
+		(int)paddle_1.width, 
+		(int)paddle_1.height
+	};
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(renderer, &paddle_1_rect);
 	
+	SDL_Rect paddle_2_rect = {
+		(int)paddle_2.x, 
+		(int)paddle_2.y, 
+		(int)paddle_2.width, 
+		(int)paddle_2.height
+	};
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(renderer, &paddle_2_rect);
+
 	SDL_RenderPresent(renderer);
 }
 

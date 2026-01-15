@@ -115,6 +115,17 @@ void update(){
 	}
 }
 
+void draw(Paddle* p){
+	SDL_Rect paddle_rect = {
+		(int)p->x, 
+		(int)p->y, 
+		(int)p->width, 
+		(int)p->height
+	};
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderFillRect(renderer, &paddle_rect);
+}
+
 void render(){
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
@@ -128,23 +139,8 @@ void render(){
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderFillRect(renderer, &ball_rect);
 
-	SDL_Rect paddle_1_rect = {
-		(int)paddle_1.x, 
-		(int)paddle_1.y, 
-		(int)paddle_1.width, 
-		(int)paddle_1.height
-	};
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(renderer, &paddle_1_rect);
-	
-	SDL_Rect paddle_2_rect = {
-		(int)paddle_2.x, 
-		(int)paddle_2.y, 
-		(int)paddle_2.width, 
-		(int)paddle_2.height
-	};
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(renderer, &paddle_2_rect);
+	draw( &paddle_1 );
+	draw( &paddle_2 );
 
 	SDL_RenderPresent(renderer);
 }

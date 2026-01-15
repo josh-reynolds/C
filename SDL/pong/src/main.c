@@ -11,26 +11,18 @@ SDL_Renderer* renderer = NULL;
 
 int last_frame_time = 0;
 
-typedef struct Ball {
+typedef struct Sprite {
 	float x;
 	float y;
 	float width;
 	float height;
 	int x_velocity;
 	int y_velocity;
-} Ball;
+} Sprite;
 
-Ball ball;
-
-typedef struct Paddle {
-	float x;
-	float y;
-	float width;
-	float height;
-} Paddle;
-
-Paddle paddle_1;
-Paddle paddle_2;
+Sprite ball;
+Sprite paddle_1;
+Sprite paddle_2;
 
 int initialize_window(void){
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -115,30 +107,22 @@ void update(){
 	}
 }
 
-void draw(Paddle* p){
-	SDL_Rect paddle_rect = {
-		(int)p->x, 
-		(int)p->y, 
-		(int)p->width, 
-		(int)p->height
+void draw(Sprite* s){
+	SDL_Rect rect = {
+		(int)s->x, 
+		(int)s->y, 
+		(int)s->width, 
+		(int)s->height
 	};
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(renderer, &paddle_rect);
+	SDL_RenderFillRect(renderer, &rect);
 }
 
 void render(){
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	SDL_Rect ball_rect = {
-		(int)ball.x, 
-		(int)ball.y, 
-		(int)ball.width, 
-		(int)ball.height
-	};
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderFillRect(renderer, &ball_rect);
-
+	draw( &ball );
 	draw( &paddle_1 );
 	draw( &paddle_2 );
 

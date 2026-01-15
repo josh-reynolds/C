@@ -15,10 +15,7 @@ const int SCREEN_WIDTH=800;
 const int SCREEN_HEIGHT=800;
 
 SDL_Window* g_pWindow = NULL;
-SDL_Surface* g_pSurface = NULL;
-
-Uint32 FOREGROUND;
-Uint32 BACKGROUND;
+SDL_Renderer* g_pRenderer = NULL;
 
 float g_dz = 1.0;
 double g_angle = 0.0;
@@ -40,11 +37,14 @@ void point(Point p){
 	rect.y = p.y - s/2;
 	rect.w = s;
 	rect.h = s;
-	SDL_FillRect(g_pSurface, &rect, FOREGROUND);
+
+	SDL_SetRenderDrawColor(g_pRenderer, 80, 255, 80, 255);
+	SDL_RenderFillRect(g_pRenderer, &rect);
 }
 
 void clear(){
-	SDL_FillRect(g_pSurface, NULL, BACKGROUND);
+	SDL_SetRenderDrawColor(g_pRenderer, 16, 16, 16, 255);
+	SDL_RenderClear(g_pRenderer);
 }
 
 Point project(Point3 p){
@@ -88,7 +88,7 @@ Point3 vs[8] = {
 };
 
 void frame(){
-	g_angle += M_PI/20;
+	g_angle += M_PI/200;
 
 	clear();
 
@@ -112,12 +112,9 @@ int main(void){
 			SDL_WINDOW_BORDERLESS
 			);
 
-	g_pSurface = SDL_GetWindowSurface(g_pWindow);
-	FOREGROUND = SDL_MapRGB(g_pSurface->format, 80, 255, 80);
-	BACKGROUND = SDL_MapRGB(g_pSurface->format, 16, 16, 16);
+	g_pRenderer = SDL_CreateRenderer(g_pWindow, -1, 0);
 
 	is_running = true;
-
 	while(is_running){
 		SDL_Event event;
 		SDL_PollEvent(&event);
@@ -133,9 +130,12 @@ int main(void){
 		}
 
 		frame();
-		SDL_UpdateWindowSurface(g_pWindow);
+		SDL_RenderPresent(g_pRenderer);
 	}
 
+	SDL_DestroyRenderer(g_pRenderer);
 	SDL_DestroyWindow(g_pWindow);
+	g_pRenderer = NULL;
+	g_pWindow = NULL;
 	SDL_Quit();
 }

@@ -107,10 +107,6 @@ void frame(){
 
 	clear();
 
-	for (int i = 0; i < 8; i++){
-		point(screen(project(translate_z(rotate_xz(vs[i], g_angle), g_dz))));
-	}
-
 	for (int i = 0; i < 12; i++){
 		int index1 = edges[i][0];
 		int index2 = edges[i][1];

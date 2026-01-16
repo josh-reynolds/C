@@ -82,6 +82,14 @@ void process_input(){
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				game_is_running = FALSE;
+			if (event.key.keysym.sym == SDLK_a)
+				paddle_1.y -= 10;
+			if (event.key.keysym.sym == SDLK_z)
+				paddle_1.y += 10;
+			if (event.key.keysym.sym == SDLK_j)
+				paddle_2.y -= 10;
+			if (event.key.keysym.sym == SDLK_m)
+				paddle_2.y += 10;
 			break;
 	}
 }

@@ -2,6 +2,8 @@
 // ======================================================
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <SDL2/SDL.h>
 #include "./constants.h"
 
@@ -57,8 +59,16 @@ void reset(){
 	ball.y = WINDOW_HEIGHT/2 - 8;
 	ball.width = 16;
 	ball.height = 16;
-	ball.x_velocity = 70;
-	ball.y_velocity = 50;
+
+	ball.x_velocity = (rand() % 100) + 40;
+	int x_dir = rand() % 2;
+	if (x_dir == 0)
+		ball.x_velocity *= -1;
+
+	ball.y_velocity = (rand() % 100) + 40;
+	int y_dir = rand() % 2;
+	if (y_dir == 0)
+		ball.y_velocity *= -1;
 }
 
 void setup(){
@@ -112,7 +122,7 @@ void update(){
 	ball.y += ball.y_velocity * delta_time;
 
 	if (ball.x + ball.width > WINDOW_WIDTH || ball.x < 0){
-		ball.x_velocity *= -1;
+		reset();
 	}
 	if (ball.y + ball.height > WINDOW_HEIGHT || ball.y < 0){
 		ball.y_velocity *= -1;
@@ -155,6 +165,7 @@ void destroy_window(){
 }
 
 int main(){
+	srand((unsigned) time(NULL));
 	game_is_running = initialize_window();
 
 	setup();

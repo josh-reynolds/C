@@ -124,8 +124,26 @@ void update(){
 	if (ball.x + ball.width > WINDOW_WIDTH || ball.x < 0){
 		reset();
 	}
+
 	if (ball.y + ball.height > WINDOW_HEIGHT || ball.y < 0){
 		ball.y_velocity *= -1;
+	}
+	
+	if (ball.x < WINDOW_WIDTH / 2){
+		// paddle_1
+		if (ball.x > paddle_1.x && ball.x < paddle_1.x + paddle_1.width){
+			if (ball.y > paddle_1.y && ball.y < paddle_1.y + paddle_1.height){
+				ball.x_velocity *= -1;
+			}
+		}
+	} else {
+		// paddle_2
+		if (ball.x + ball.width > paddle_2.x && 
+				ball.x + ball.width < paddle_2.x + paddle_2.width){
+			if (ball.y > paddle_2.y && ball.y < paddle_2.y + paddle_2.height){
+				ball.x_velocity *= -1;
+			}
+		}
 	}
 
 	// update all objects

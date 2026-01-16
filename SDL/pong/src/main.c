@@ -52,23 +52,27 @@ int initialize_window(void){
 	return TRUE;
 }
 
-void setup(){
-	ball.x = 20;
-	ball.y = 20;
-	ball.width = 15;
-	ball.height = 15;
+void reset(){
+	ball.x = WINDOW_WIDTH/2 - 8;
+	ball.y = WINDOW_HEIGHT/2 - 8;
+	ball.width = 16;
+	ball.height = 16;
 	ball.x_velocity = 70;
 	ball.y_velocity = 50;
+}
+
+void setup(){
+	reset();
 
 	paddle_1.x = 10;
-	paddle_1.y = WINDOW_HEIGHT / 2;
+	paddle_1.y = WINDOW_HEIGHT / 2 - 40;
 	paddle_1.width = 10;
-	paddle_1.height = 50;
+	paddle_1.height = 80;
 
-	paddle_2.x = WINDOW_WIDTH - 10;
-	paddle_2.y = WINDOW_HEIGHT / 2;
+	paddle_2.x = WINDOW_WIDTH - 10 - 10;
+	paddle_2.y = WINDOW_HEIGHT / 2 - 40;
 	paddle_2.width = 10;
-	paddle_2.height = 50;
+	paddle_2.height = 80;
 }
 
 void process_input(){
@@ -113,6 +117,13 @@ void update(){
 	if (ball.y + ball.height > WINDOW_HEIGHT || ball.y < 0){
 		ball.y_velocity *= -1;
 	}
+
+	// update all objects
+	//     paddle - move by player input
+	//     ball   - move by current velocity/direction
+	//              handle collisions w/ paddles
+	//              handle collisions w/ bounds
+	// handle scoring/reset if ball is out of bounds
 }
 
 void draw(Sprite* s){
@@ -127,7 +138,7 @@ void draw(Sprite* s){
 }
 
 void render(){
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255);
 	SDL_RenderClear(renderer);
 
 	draw( &ball );

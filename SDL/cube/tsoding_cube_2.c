@@ -108,9 +108,9 @@ Point3 rotate_xz(Point3 p, double angle){
 // TO_DO: calculate proper vertex positions for a regular tetrahedron
 Point3 vs[4] = {
 	{ 0.0,  0.5,  0.0},
-	{ 0.5, -0.5, -0.5},
-	{-0.5, -0.5, -0.5},
-	{ 0.0, -0.5,  0.5},
+	{ 0.5, -0.5, -0.28},
+	{-0.5, -0.5, -0.28},
+	{ 0.0, -0.5,  0.58},
 };
 
 int edges[6][2] = {

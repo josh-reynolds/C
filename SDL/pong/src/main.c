@@ -54,16 +54,13 @@ int initialize_window(void){
 	return TRUE;
 }
 
-void reset(){
+void reset(int direction){
 	ball.x = WINDOW_WIDTH/2 - 8;
 	ball.y = WINDOW_HEIGHT/2 - 8;
 	ball.width = 16;
 	ball.height = 16;
 
-	ball.x_velocity = (rand() % 100) + 40;
-	int x_dir = rand() % 2;
-	if (x_dir == 0)
-		ball.x_velocity *= -1;
+	ball.x_velocity = (rand() % 100) + 40 * direction;
 
 	ball.y_velocity = (rand() % 100) + 40;
 	int y_dir = rand() % 2;
@@ -72,7 +69,7 @@ void reset(){
 }
 
 void setup(){
-	reset();
+	reset(1);
 
 	paddle_1.x = 10;
 	paddle_1.y = WINDOW_HEIGHT / 2 - 40;
@@ -121,8 +118,11 @@ void update(){
 	ball.x += ball.x_velocity * delta_time;
 	ball.y += ball.y_velocity * delta_time;
 
-	if (ball.x + ball.width > WINDOW_WIDTH || ball.x < 0){
-		reset();
+	if (ball.x + ball.width > WINDOW_WIDTH){
+		reset(-1);
+	}
+	if (ball.x < 0){
+		reset(1);
 	}
 
 	if (ball.y + ball.height > WINDOW_HEIGHT || ball.y < 0){

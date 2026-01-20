@@ -93,14 +93,26 @@ void process_input(){
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				game_is_running = FALSE;
-			if (event.key.keysym.sym == SDLK_a)
+			if (event.key.keysym.sym == SDLK_a){
 				paddle_1.y -= 10;
-			if (event.key.keysym.sym == SDLK_z)
+				if (paddle_1.y <= 0)
+					paddle_1.y = 0;
+			}
+			if (event.key.keysym.sym == SDLK_z){
 				paddle_1.y += 10;
-			if (event.key.keysym.sym == SDLK_j)
+				if (paddle_1.y + paddle_1.height >= WINDOW_HEIGHT)
+					paddle_1.y = WINDOW_HEIGHT - paddle_1.height;
+			}
+			if (event.key.keysym.sym == SDLK_j){
 				paddle_2.y -= 10;
-			if (event.key.keysym.sym == SDLK_m)
+				if (paddle_2.y <= 0)
+					paddle_2.y = 0;
+			}
+			if (event.key.keysym.sym == SDLK_m){
 				paddle_2.y += 10;
+				if (paddle_2.y + paddle_2.height >= WINDOW_HEIGHT)
+					paddle_2.y = WINDOW_HEIGHT - paddle_2.height;
+			}
 			break;
 	}
 }

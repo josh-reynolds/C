@@ -26,6 +26,9 @@ Sprite ball;
 Sprite paddle_1;
 Sprite paddle_2;
 
+int player_1_score = 0;
+int player_2_score = 0;
+
 int initialize_window(void){
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
 		fprintf(stderr, "Error initializing SDL.\n");
@@ -60,12 +63,14 @@ void reset(int direction){
 	ball.width = 16;
 	ball.height = 16;
 
-	ball.x_velocity = (rand() % 100) + 40 * direction;
+	ball.x_velocity = (rand() % 30) + 200 * direction;
 
-	ball.y_velocity = (rand() % 100) + 40;
+	ball.y_velocity = (rand() % 10) + 10;
 	int y_dir = rand() % 2;
 	if (y_dir == 0)
 		ball.y_velocity *= -1;
+
+	fprintf(stdout, "Player 1: %d | Player 2: %d\n", player_1_score, player_2_score);
 }
 
 void setup(){
@@ -93,6 +98,7 @@ void process_input(){
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				game_is_running = FALSE;
+
 			if (event.key.keysym.sym == SDLK_a){
 				paddle_1.y -= 10;
 				if (paddle_1.y <= 0)
@@ -131,9 +137,11 @@ void update(){
 	ball.y += ball.y_velocity * delta_time;
 
 	if (ball.x + ball.width > WINDOW_WIDTH){
+		player_1_score++;
 		reset(-1);
 	}
 	if (ball.x < 0){
+		player_2_score++;
 		reset(1);
 	}
 

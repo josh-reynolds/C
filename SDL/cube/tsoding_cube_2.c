@@ -75,6 +75,18 @@ Point3 rotate_xz(Point3 p, double angle){
 	return result;
 }
 
+Point3 rotate_yz(Point3 p, double angle){
+	double theta = angle * (M_PI / 180.0);
+	double c = cos(theta);
+	double s = sin(theta);
+	Point3 result = {
+		p.x,
+		p.y * c - p.z * s,
+		p.y * s + p.z * c
+	};
+	return result;
+}
+
 // CUBE ====================================
 //Point3 vs[8] = {
 	//{ 0.25,  0.25,  0.25},
@@ -105,34 +117,64 @@ Point3 rotate_xz(Point3 p, double angle){
 // END CUBE ================================
 
 // TETRAHEDRON =================================
-Point3 vs[4] = {
-	{ 0.0,  0.4082,  0.0},
-	{ 0.5, -0.4082, -0.28875},
-	{-0.5, -0.4082, -0.28875},
-	{ 0.0, -0.4082,  0.5775},
+//Point3 vs[4] = {
+	//{ 0.0,  0.4082,  0.0},
+	//{ 0.5, -0.4082, -0.28875},
+	//{-0.5, -0.4082, -0.28875},
+	//{ 0.0, -0.4082,  0.5775},
+//};
+//
+//int edges[6][2] = {
+	//{0, 1},
+	//{0, 2},
+	//{0, 3},
+	//{1, 2},
+	//{2, 3},
+	//{3, 1},
+//};
+// END TETRAHEDRON =============================
+
+// OCTOHEDRON =================================
+Point3 vs[6] = {
+	{ 0.0,  0.5,  0.0},   // TOP
+	{ 0.5,  0.0,  0.0},   // RIGHT
+	{ 0.0,  0.0, -0.5},   // FRONT
+	{-0.5,  0.0,  0.0},   // LEFT
+	{ 0.0,  0.0,  0.5},   // BACK
+	{ 0.0, -0.5,  0.0},   // BOTTOM
 };
 
-int edges[6][2] = {
+int edges[12][2] = {
 	{0, 1},
 	{0, 2},
 	{0, 3},
+	{0, 4},
+	{5, 1},
+	{5, 2},
+	{5, 3},
+	{5, 4},
 	{1, 2},
 	{2, 3},
-	{3, 1},
+	{3, 4},
+	{4, 1},
 };
-// END TETRAHEDRON =============================
+// END OCTOHEDRON =============================
 
 void frame(){
 	g_angle += M_PI/200;
 
 	clear();
 
-	for (int i = 0; i < 6; i++){
+	for (int i = 0; i < 12; i++){
 		int index1 = edges[i][0];
 		int index2 = edges[i][1];
 
-		Point p1 = screen(project(translate_z(rotate_xz(vs[index1], g_angle), g_dz)));
-		Point p2 = screen(project(translate_z(rotate_xz(vs[index2], g_angle), g_dz)));
+		Point p1 = screen(project(translate_z(
+						rotate_xz(
+							rotate_yz(vs[index1], 10), g_angle), g_dz)));
+		Point p2 = screen(project(translate_z(
+						rotate_xz(
+							rotate_yz(vs[index2], 10), g_angle), g_dz)));
 
 		SDL_SetRenderDrawColor(g_pRenderer, 80, 255, 80, 255);
 		SDL_RenderDrawLine(g_pRenderer, p1.x, p1.y, p2.x, p2.y);

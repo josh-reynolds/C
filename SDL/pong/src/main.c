@@ -68,8 +68,8 @@ int initialize_window(void){
 void reset(int direction){
 	ball.x = WINDOW_WIDTH/2 - 8;
 	ball.y = WINDOW_HEIGHT/2 - 8;
-	ball.width = 16;
-	ball.height = 16;
+	ball.width = 32;
+	ball.height = 32;
 
 	ball.x_velocity = (rand() % 30) + 200 * direction;
 
@@ -205,14 +205,14 @@ void render(){
 	SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255);
 	SDL_RenderClear(renderer);
 
-	draw( &ball );
+	//draw( &ball );
 	draw( &paddle_1 );
 	draw( &paddle_2 );
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
 	SDL_Rect dst;
-	dst.x = WINDOW_WIDTH/2 - 16;
-	dst.y = 0;
+	dst.x = ball.x;
+	dst.y = ball.y;
 	dst.w = 32;
 	dst.h = 32;
 

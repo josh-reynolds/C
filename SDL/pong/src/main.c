@@ -11,6 +11,7 @@
 int game_is_running = FALSE;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+SDL_Surface* image = NULL;
 
 int last_frame_time = 0;
 
@@ -52,6 +53,12 @@ int initialize_window(void){
 	renderer = SDL_CreateRenderer(window, -1, 0);
 	if (!renderer){
 		fprintf(stderr, "Error creating SDL renderer.\n");
+		return FALSE;
+	}
+
+	image = SDL_LoadBMP("./images/ball.bmp");
+	if (!image){
+		fprintf(stderr, "Error loading bitmap.\n");
 		return FALSE;
 	}
 
@@ -202,10 +209,20 @@ void render(){
 	draw( &paddle_1 );
 	draw( &paddle_2 );
 
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+	SDL_Rect dst;
+	dst.x = WINDOW_WIDTH/2 - 16;
+	dst.y = 0;
+	dst.w = 32;
+	dst.h = 32;
+
+	SDL_RenderCopy(renderer, texture, NULL, &dst);
+
 	SDL_RenderPresent(renderer);
 }
 
 void destroy_window(){
+	SDL_FreeSurface(image);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

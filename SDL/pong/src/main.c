@@ -12,6 +12,7 @@ int game_is_running = FALSE;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Surface* image = NULL;
+SDL_Texture* ball_tex = NULL;
 
 int last_frame_time = 0;
 
@@ -61,6 +62,7 @@ int initialize_window(void){
 		fprintf(stderr, "Error loading bitmap.\n");
 		return FALSE;
 	}
+	ball_tex = SDL_CreateTextureFromSurface(renderer, image);
 
 	return TRUE;
 }
@@ -201,22 +203,23 @@ void draw(Sprite* s){
 	SDL_RenderFillRect(renderer, &rect);
 }
 
-void render(){
-	SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255);
-	SDL_RenderClear(renderer);
-
-	//draw( &ball );
-	draw( &paddle_1 );
-	draw( &paddle_2 );
-
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+void blit(SDL_Texture* tex){
 	SDL_Rect dst;
 	dst.x = ball.x;
 	dst.y = ball.y;
 	dst.w = 32;
 	dst.h = 32;
 
-	SDL_RenderCopy(renderer, texture, NULL, &dst);
+	SDL_RenderCopy(renderer, tex, NULL, &dst);
+}
+
+void render(){
+	SDL_SetRenderDrawColor(renderer, 0, 0, 128, 255);
+	SDL_RenderClear(renderer);
+
+	draw( &paddle_1 );
+	draw( &paddle_2 );
+	blit( ball_tex );
 
 	SDL_RenderPresent(renderer);
 }

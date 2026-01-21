@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL2/SDL.h>
+//#include <SDL2/SDL_ttf.h>
 #include "./constants.h"
 
 int game_is_running = FALSE;
@@ -166,6 +167,12 @@ void update(){
 		paddle_2.y += 10;
 		if (paddle_2.y + paddle_2.height >= WINDOW_HEIGHT)
 			paddle_2.y = WINDOW_HEIGHT - paddle_2.height;
+	}
+
+	if (player_1_score >= 10 || player_2_score >= 10){
+		fprintf(stdout, "GAME OVER\n");
+		fprintf(stdout, "Player 1: %d | Player 2: %d\n", player_1_score, player_2_score);
+		game_is_running = FALSE;
 	}
 
 	// update all objects
